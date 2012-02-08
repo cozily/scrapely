@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   validates_uniqueness_of :external_id, :href
   validates_presence_of :user
+  has_one :transmission
 
   def after_create
     return if email.blank? || email =~ /craigslist/

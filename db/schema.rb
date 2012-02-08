@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101003025207) do
+ActiveRecord::Schema.define(:version => 20120208072300) do
 
   create_table "posts", :force => true do |t|
     t.string   "external_id"
@@ -23,6 +23,23 @@ ActiveRecord::Schema.define(:version => 20101003025207) do
   create_table "potential_users", :force => true do |t|
     t.string   "email"
     t.string   "type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "responses", :force => true do |t|
+    t.string   "email"
+    t.text     "body"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "transmissions", :force => true do |t|
+    t.integer  "post_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "email"
+    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
