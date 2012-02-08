@@ -7,14 +7,10 @@ class PostsController < ApplicationController
 
   def scrape
     agent = Mechanize.new
-    urls_with_role = %w{mnh brk que brx stn}.map do |borough|
-      [["hou", "finder"], ["abo", "lister"], ["sub", "lister"]].map do |type, role|
-        ["#{borough}/#{type}", role]
-      end
-    end.flatten(1)
+    symbols = %w{ppa atq bar bik boo bks bfs sya zip fua for jwl mat rva spo tia tls wan art pta bab hab emd moa clo clt ela grd gms hsh mca msg pho tag vgm}
 
-    urls_with_role.each do |path, user|
-      page = agent.get("http://newyork.craigslist.org/#{path}")
+    symbols.each do |symbol|
+      page = agent.get("http://newyork.craigslist.org/#{symbol}")
       links = page.search('blockquote p a')
 
       links.each do |link|
@@ -24,10 +20,7 @@ class PostsController < ApplicationController
           unless Post.exists?(:external_id => external_id)
             page = agent.get(href) rescue nil
             if page
-              post = Post.new(:external_id => external_id,
-                              :href => href,
-                              :user => user)
-
+              post = Post.new(:external_id => external_id, :href => href, :user => :finder)
               post_links = page.search('body.posting a:first-of-type')
               post_links.each do |post_link|
                 post_link_href = post_link.attributes.first.last.value
@@ -35,7 +28,6 @@ class PostsController < ApplicationController
                   post.email = email_match[1]
                 end
               end
-
               post.save
             end
           end
