@@ -50,5 +50,6 @@ class PostsController < ApplicationController
     sender = "#{first_name.downcase}.#{last_name.downcase}@hydromu.com"
 
     PotentialUserMailer.inquiry(post.title, sender, first_name, last_name, "todd.persen@gmail.com").deliver
+    post.update_attribute(:contacted, true)
   end
 end
