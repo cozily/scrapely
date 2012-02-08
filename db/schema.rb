@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120208072300) do
+ActiveRecord::Schema.define(:version => 20120208081205) do
 
   create_table "posts", :force => true do |t|
     t.string   "external_id"
@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(:version => 20120208072300) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "user"
+    t.string   "title"
   end
 
   create_table "potential_users", :force => true do |t|
