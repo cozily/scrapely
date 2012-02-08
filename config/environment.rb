@@ -44,10 +44,10 @@ ActionMailer::Base.default_content_type = "text/html"
 ActionMailer::Base.delivery_method = :smtp
 ActionMailer::Base.smtp_settings = {
         :enable_starttls_auto => true,
-        :address => "smtp.sendgrid.net",
+        :address => "smtp.mailgun.org",
         :port => 587,
-        :domain => "cozi.ly",
+        :domain => "hydromu.com",
         :authentication => :plain,
-        :user_name => "cozily",
-        :password => "marathon69"
+        :user_name => "postmaster@hydromu.com",
+        :password => "5hhg2dfkm7d4"
 }
