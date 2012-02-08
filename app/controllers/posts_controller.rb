@@ -6,7 +6,9 @@ class PostsController < ApplicationController
   end
 
   def inbound
-    raise params.inspect
+    Response.create(:email => params["sender"], :body => params["body-plain"])
+
+    render :nothing => true
   end
 
   def scrape
@@ -18,13 +20,14 @@ class PostsController < ApplicationController
       links = page.search('blockquote p a')
 
       links.each do |link|
+        title = link.text
         href = link.attributes.first.last.value
         if match = href.match(/\/(\d+).html/)
           external_id = match[1]
           unless Post.exists?(:external_id => external_id)
             page = agent.get(href) rescue nil
             if page
-              post = Post.new(:external_id => external_id, :href => href, :user => :finder)
+              post = Post.new(:external_id => external_id, :title => title, :href => href, :user => :finder)
               post_links = page.search('body.posting a:first-of-type')
               post_links.each do |post_link|
                 post_link_href = post_link.attributes.first.last.value
@@ -42,19 +45,10 @@ class PostsController < ApplicationController
   end
 
   def email_one_remailer_user
-    posts = Post.all(:conditions => ["email like ?", "%craigslist%"], :order => "created_at desc", :limit => 1000)
+    post = Post.first(:conditions => {:contacted => false})
+    first_name, last_name = Faker::Name.first_name, Faker::Name.last_name
+    sender = "#{first_name.downcase}.#{last_name.downcase}@hydromu.com"
 
-    user = PotentialUser.latest_remailer_user
-
-#    return if user.created_at > 20.minutes.ago
-    post = if user.is_a?(PotentialLister)
-      posts.detect { |p| p.user == "finder" && !PotentialUser.exists?(:email => p.email) }
-    else
-      posts.detect { |p| p.user == "lister" && !PotentialUser.exists?(:email => p.email) }
-    end
-
-    post = posts.detect { |p| !PotentialUser.exists?(:email => p.email) } unless post
-
-    "Potential#{post.user.camelize}".constantize.create(:email => post.email) if post
+    PotentialUserMailer.inquiry(post.title, sender, first_name, last_name, "todd.persen@gmail.com").deliver
   end
 end
