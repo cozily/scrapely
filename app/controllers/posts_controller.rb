@@ -6,7 +6,7 @@ class PostsController < ApplicationController
   end
 
   def inbound
-    Response.create(:email => params["sender"], :body => params["body-plain"])
+    Response.create(:email => params["sender"], :recipient => params["recipient"], :body => params["body-plain"])
 
     render :nothing => true
   end
