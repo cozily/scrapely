@@ -48,7 +48,7 @@ class PostsController < ApplicationController
     require "ffaker"
 
     post = Post.first(:conditions => {:contacted => false})
-    unless.post.email.nil?
+    unless post.email.nil?
       first_name, last_name = Faker::Name.first_name, Faker::Name.last_name
       sender = %Q{"#{first_name.downcase}.#{last_name.downcase}@hydromu.com" <#{first_name} #{last_name}>}
 
