@@ -5,9 +5,13 @@ class PostsController < ApplicationController
     @potential_users = PotentialUser.all
   end
 
+  def inbound
+    raise params.inspect
+  end
+
   def scrape
     agent = Mechanize.new
-    symbols = %w{ppa atq bar bik boo bks bfs sya zip fua for jwl mat rva spo tia tls wan art pta bab hab emd moa clo clt ela grd gms hsh mca msg pho tag vgm}
+    symbols = %w{ppa atq bar bik boo bks bfs} # sya zip fua for jwl mat rva spo tia tls wan art pta bab hab emd moa clo clt ela grd gms hsh mca msg pho tag vgm}
 
     symbols.each do |symbol|
       page = agent.get("http://newyork.craigslist.org/#{symbol}")
