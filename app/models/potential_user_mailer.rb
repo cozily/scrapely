@@ -12,4 +12,18 @@ class PotentialUserMailer < ActionMailer::Base
     recipients email
     subject "Find your apartment on Cozily"
   end
+
+  def inquiry(title, sender, first_name, last_name, recipient)
+    from sender
+    recipients recipient
+    subject "Re: #{title}"
+
+    @salutation = ["Hey there", "Hi", "Greetings", "Hey"]
+    @question = ["Is this still available?", "Could you tell me if your item is still available?", "Did you sell this yet?", "Did anyone buy this yet?", "Did your item sell yet?"]
+    @valediction = ["Best", "Thanks", "Thank you", "Let me know"]
+
+    @first_name = first_name
+    @last_name = last_name
+    @sender = sender
+  end
 end
