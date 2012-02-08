@@ -45,6 +45,8 @@ class PostsController < ApplicationController
   end
 
   def email_one_remailer_user
+    require "ffaker"
+
     post = Post.first(:conditions => {:contacted => false})
     first_name, last_name = Faker::Name.first_name, Faker::Name.last_name
     sender = "#{first_name.downcase}.#{last_name.downcase}@hydromu.com"
