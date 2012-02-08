@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: cozily_scraper_development
+  database: scrapely_development
   pool: 5
   username: todd
   password:
