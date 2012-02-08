@@ -50,7 +50,7 @@ class PostsController < ApplicationController
     post = Post.first(:conditions => {:contacted => false})
     unless post.email.nil?
       first_name, last_name = Faker::Name.first_name, Faker::Name.last_name
-      sender = %Q{"#{first_name.downcase}.#{last_name.downcase}@hydromu.com" <#{first_name} #{last_name}>}
+      sender = %Q{"#{first_name} #{last_name}" <#{first_name.downcase}.#{last_name.downcase}@hydromu.com>}
 
       PotentialUserMailer.deliver_inquiry(post.title, sender, first_name, last_name, post.email)
     end
